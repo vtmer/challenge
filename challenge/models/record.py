@@ -18,6 +18,12 @@ class Record(db.Model):
     next_record_id = db.Column(db.Integer, db.ForeignKey('record.id'))
     prev = db.relationship('Record', uselist=False)
 
+    def __init__(self, session_id, key, stage, prev=None):
+        self.session_id = session_id
+        self.key = key
+        self.stage_id = stage.id
+        self.prev = prev
+
     def __str__(self):
         return '<Record %s %s>' % (self.key, self.session_id)
 

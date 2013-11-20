@@ -2,7 +2,7 @@
 
 import os
 
-from flask import Flask
+from flask import Flask, session
 
 
 def build(**settings):
@@ -16,6 +16,10 @@ def build(**settings):
     register_logging(app)
     register_blueprint(app)
 
+    @app.before_first_request
+    def init_app():
+        session.permanent = True
+
     return app
 
 
@@ -28,6 +32,9 @@ def register_db(app):
 
 
 def register_blueprint(app):
+    from .views import quiz
+    app.register_blueprint(quiz.bp, url_prefix='/quiz')
+
     return app
 
 
