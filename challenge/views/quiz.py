@@ -25,8 +25,12 @@ def generate_key():
 
 def new_record(stage, session_id=None, prev=None):
     session_id = session_id or generate_session_id()
-    record = Record(session_id=session_id, key=generate_key(), stage=stage,
-                    prev=prev)
+    while True:
+        key = generate_key()
+        # TODO use raw sql
+        if not Record.query.filter_by(key=key).first():
+            break
+    record = Record(session_id=session_id, key=key, stage=stage, prev=prev)
 
     db.session.add(record)
     db.session.commit()
