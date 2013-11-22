@@ -11,7 +11,7 @@ from challenge.db import db
 from challenge.models import Stage, Record
 
 
-bp = Blueprint('quiz', __name__)
+bp = Blueprint('quiz', __name__, template_folder='templates')
 logger = logging.getLogger('app')
 
 
