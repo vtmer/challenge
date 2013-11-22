@@ -61,6 +61,8 @@ def quiz(key):
     last_record = Record.query.filter_by(**query).first_or_404()
 
     if not last_record.stage.next:
+        # TODO email me, plz
+        logger.info('%s has finished all quizs!' % session_id)
         return 'You have finished it! Congs!'
 
     record = new_record(last_record.stage.next, session_id, last_record)
