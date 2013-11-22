@@ -35,6 +35,9 @@ def register_blueprint(app):
     from .views import quiz
     app.register_blueprint(quiz.bp, url_prefix='/quiz')
 
+    from .views import backend
+    app.register_blueprint(backend.bp, url_prefix='/backend')
+
     return app
 
 

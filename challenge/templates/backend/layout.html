@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Challenge{% endblock %}</title>
+    {% block head %}
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('backend.static', filename='styles/vendor/pure-min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('backend.static', filename='styles/style.css') }}" />
+    {% endblock %}
+</head>
+<body>
+    {% block container %}
+    {% endblock %}
+</body>
+{% block scripts %}
+<script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+<script src="{{ url_for('backend.static', filename='scripts/vinko.js') }}"></script>
+{% endblock %}
+</html>

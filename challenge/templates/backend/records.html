@@ -1,0 +1,48 @@
+{% set current = 'record' %}
+
+{% extends 'module.html' %}
+
+{% block module_name %}
+<h1>All Records</h1>
+{% endblock %}
+
+{% block module_content %}
+<div class="inner pure-g">
+    <div class="module-meta pure-u-2-3">
+        <p>Total: {{ records | length }} | Finished: {{ finish_records | length }}</p>
+    </div>
+</div>
+{% if finish_records %}
+<table class="list pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>Finished Session Id</th>
+        </tr>
+    </thead>
+    {% for record in finish_records %}
+    <tr>
+        <td>{{ record.session_id }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% if records %}
+<table class="list pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>Session Id</th>
+            <th>Current Stage</th>
+            <th>Finished?</th>
+        </tr>
+    </thead>
+    {% for record in records %}
+    <tr>
+        <td>{{ record.session_id }}</td>
+        <td><a href="{{ url_for('backend.quiz', quiz_id=record.stage.id) }}">{{ record.stage.display_name }}</a></td>
+        <td>{% if record.is_finish %} Yes! {% else %} Nope {% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

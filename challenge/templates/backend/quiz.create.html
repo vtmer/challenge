@@ -1,0 +1,32 @@
+{% set current = 'quiz' %}
+
+{% extends 'module.html' %}
+
+{% block module_name %}
+<h1>Create New Quiz</h1>
+{% endblock %}
+
+{% block module_content %}
+<form action="{{ url_for('backend.create_quiz') }}" method="post" class="pure-form pure-form-stacked">
+    <div class="pure-control-group">
+        <label for="display_name">Name:</label>
+        <input type="text" name="display_name" />
+    </div>
+    <div class="pure-control-group">
+        <label for="quiz_name">Module:</label>
+        <input type="text" name="quiz_name" />
+    </div>
+    <div class="pure-control-group">
+        <label for="next_quiz">Next Quiz:</label>
+        <select name="next_quiz">
+            <option value="-1" selected>None</option>
+            {% for quiz in quizs %}
+            <option value="{{ quiz.id }}">{{ quiz.display_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="pure-controls">
+        <button class="pure-button pure-button-primary" type="submit">Create</button>
+    </div>
+</form>
+{% endblock %}

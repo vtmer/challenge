@@ -1,0 +1,36 @@
+{% set current = 'quiz' %}
+
+{% extends 'module.html' %}
+
+{% block module_name %}
+<h1>All Quizs</h1>
+{% endblock %}
+
+{% block module_content %}
+<div class="inner pure-g">
+    <div id="module-meta" class="pure-u-2-3">
+        <p>Total: {{ quizs | length }}</p>
+    </div>
+    <section id="module-op" class="pure-u-1-3">
+        <a class="pure-button pure-button-success pull-right" href="{{ url_for('backend.create_quiz') }}">Add a quiz</a>
+    </section>
+</div>
+{% if quizs %}
+<table class="list pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Module Name</th>
+            <th>OP.</th>
+        </tr>
+    </thead>
+{% for quiz in quizs %}
+    <tr>
+        <td><a href="{{ url_for('backend.quiz', quiz_id=quiz.id) }}">{{ quiz.display_name }}</a></td>
+        <td>{{ quiz.quiz_name }}</td>
+        <td><a href="{{ url_for('backend.remove_quiz', quiz_id=quiz.id) }}" class="pure-button pure-button-error">Remove</a></td>
+    </tr>
+{% endfor %}
+</table>
+{% endif %}
+{% endblock %}

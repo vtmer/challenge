@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block container %}
+    <section class="container medium">
+        <div class="wrapper" id="login">
+            {% include 'parts/alert.html' %}
+            <div class="grid">
+                <header>
+                    <h1>Welcome Back</h1>
+                </header>
+                {% with next = get_flashed_messages(category_filter=['next']) %}
+                <form action="{{ url_for('backend.auth', next=next or '') }}" method="post" class="pure-form pure-form-aligned">
+                    <div class="pure-control-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" class="pure-u-1-2" />
+                    </div>
+                    <div class="pure-controls">
+                        <button class="pure-button pure-button-primary" type="submit">Sign in</button>
+                    </div>
+                </form>
+                {% endwith %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

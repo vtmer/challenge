@@ -1,0 +1,34 @@
+{% set current = 'quiz' %}
+
+{% extends 'module.html' %}
+
+{% block module_name %}
+<h1>Quiz: {{ quiz.display_name }}</h1>
+{% endblock %}
+
+{% block module_content %}
+<form action="{{ url_for('backend.quiz', quiz_id=quiz.id) }}" method="post" class="pure-form pure-form-stacked">
+    <div class="pure-control-group">
+        <label for="display_name">Name:</label>
+        <input type="text" name="display_name" value="{{ quiz.display_name }}"/>
+    </div>
+    <div class="pure-control-group">
+        <label for="quiz_name">Module:</label>
+        <input type="text" name="quiz_name" value="{{ quiz.quiz_name }}" disabled />
+    </div>
+    <div class="pure-control-group">
+        <label for="next_quiz">Next Quiz:</label>
+        <select name="next_quiz">
+            <option value="-1" {% if not quiz.next %}selected{% endif %}>None</option>
+            {% for q in quizs %}
+            {% if q.id != quiz.id and q not in quiz.ancestors %}
+            <option value="{{ q.id }}" {% if quiz.next.id == q.id %}selected{% endif %}>{{ q.display_name }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="pure-controls">
+        <button class="pure-button pure-button-primary" type="submit">Updated informations</button>
+    </div>
+</form>
+{% endblock %}

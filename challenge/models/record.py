@@ -15,6 +15,8 @@ class Record(db.Model):
     stage_id = db.Column(db.Integer, db.ForeignKey('stage.id'))
     stage = db.relationship('Stage')
 
+    # TODO
+    # bidirect relation
     next_record_id = db.Column(db.Integer, db.ForeignKey('record.id'))
     prev = db.relationship('Record', uselist=False)
 
@@ -29,3 +31,24 @@ class Record(db.Model):
 
     def __repr__(self):
         return self.__str__()
+
+    @property
+    def last(self):
+        '''Get last record from the records chains'''
+        node = self
+        while node.next_record_id:
+            # TODO bidirect relation
+            node = Record.query.filter_by(id=node.next_record_id).first()
+        return node
+
+    @property
+    def first(self):
+        '''Get first record from the records chains'''
+        node = self
+        while node.prev:
+            node = node.prev
+        return node
+
+    @property
+    def is_finish(self):
+        return self.last.stage.next is None

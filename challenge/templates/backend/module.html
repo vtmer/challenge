@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block container %}
+<section class="container">
+    {% include 'parts/head.html' %}
+    {% include 'parts/alert.html' %}
+    <section id="dashboard" class="pure-g grid">
+        <section id="main" class="pure-u-3-4">
+            <header id="module-name">
+                {% block module_name %}{% endblock %}
+            </header>
+            <article id="module-content">
+                {% block module_content %}{% endblock %}
+            </article>
+        </section>
+        {% include 'parts/side_nav.html' %}
+    </section>
+    {% include 'parts/footer.html' %}
+</section>
+{% endblock %}

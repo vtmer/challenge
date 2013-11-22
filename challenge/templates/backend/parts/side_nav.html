@@ -1,0 +1,13 @@
+	    <nav id="side-nav" class="pure-u-1-4">
+                <section id="site-infos">
+                    <h3>Challenge</h3>
+                </section>
+                <ul class="items">
+                    <li class="item {% if current == 'quiz' %} current {% endif %}"><a href="{{ url_for('backend.list_quizs') }}">
+                        <i class="fa fa-file"></i>Quizs
+                    </a></li>
+                    <li class="item {% if current == 'record' %} current {% endif %}"><a href="{{ url_for('backend.list_records') }}">
+                        <i class="fa fa-file"></i>Records
+                    </a></li>
+                </ul>
+            </nav>

@@ -2,3 +2,4 @@
 
 from .stage import *
 from .record import *
+from .auth import *

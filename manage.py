@@ -16,7 +16,7 @@ def run():
 
 
 @manager.command
-def seed():
+def seed_stages():
     from challenge.db import db
     from challenge.models import Stage
 
@@ -24,6 +24,17 @@ def seed():
     db.session.add(init_stage)
     db.session.commit()
     print 'Created %s' % init_stage
+
+
+@manager.command
+def seed_auth():
+    from challenge.db import db
+    from challenge.models import Auth
+
+    admin = Auth('haha')
+    db.session.add(admin)
+    db.session.commit()
+    print 'Created %s' % admin
 
 
 if __name__ == '__main__':

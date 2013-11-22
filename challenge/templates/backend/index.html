@@ -1,0 +1,8 @@
+{% extends 'module.html' %}
+
+{% block module_content %}
+<ul class="badges">
+    <li><a class="badge" href="{{ url_for('backend.list_quizs') }}">Quizs</a></li>
+    <li><a class="badge" href="{{ url_for('backend.list_records') }}">Records</a></li>
+</ul>
+{% endblock %}

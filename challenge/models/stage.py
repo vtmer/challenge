@@ -12,6 +12,8 @@ class Stage(db.Model):
     display_name = db.Column(db.String(150), unique=True, nullable=False)
     quiz_name = db.Column(db.String(150), nullable=True)
 
+    # TODO
+    # bidirect relation
     prev_stage_id = db.Column(db.Integer, db.ForeignKey('stage.id'))
     next = db.relationship('Stage', uselist=False)
 
@@ -26,3 +28,17 @@ class Stage(db.Model):
 
     def __repr__(self):
         return self.__str__()
+
+    @property
+    def ancestors(self):
+        '''ancectors stage
+
+        TODO cached result
+        '''
+        parents, node = [], self
+        while node.prev_stage_id:
+            # TODO bidirect relation
+            papa = Stage.query.filter_by(id=node.prev_stage_id).first()
+            parents.append(papa)
+            node = papa
+        return parents

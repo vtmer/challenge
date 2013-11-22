@@ -1,0 +1,17 @@
+{% extends 'module.html' %}
+
+{% block module_content %}
+<form action="{{ url_for('backend.me') }}" method="post" class="pure-form pure-form-stacked">
+    <div class="pure-control-group">
+        <label for="orig_password">Password</label>
+        <input type="password" name="orig_password" />
+    </div>
+    <div class="pure-control-group">
+        <label for="password">New Password</label>
+        <input type="password" name="password" />
+    </div>
+    <div class="pure-controls">
+        <button class="pure-button pure-button-primary" type="submit">Change password</button>
+    </div>
+</form>
+{% endblock %}
