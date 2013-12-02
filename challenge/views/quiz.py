@@ -35,7 +35,7 @@ def new_record(stage, session_id=None, prev=None):
     db.session.add(record)
     db.session.commit()
 
-    logger.info('created new %s' % record)
+    logger.debug('created new %s' % record)
     return record
 
 
@@ -70,7 +70,6 @@ def quiz(key):
     last_record = Record.query.filter_by(**query).first_or_404()
 
     if not last_record.stage.next:
-        # TODO email me, plz
         logger.info('%s has finished all quizs!' % session_id)
         return 'You have finished it! Congs!'
 
