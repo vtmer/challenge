@@ -142,3 +142,14 @@ def list_records():
     finish_records = filter(lambda x: x.is_finish, records)
     return render_template('records.html', records=records,
                            finish_records=finish_records)
+
+
+@bp.route('/records/empty', methods=['GET'])
+@auth_require
+def empty_records():
+    # TODO batch expresssion
+    for record in Record.query.all():
+        db.session.delete(record)
+    db.session.commit()
+    flash('All records were removed successfully!', category='success')
+    return redirect(url_for('.list_records'))
