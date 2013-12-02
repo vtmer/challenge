@@ -48,6 +48,7 @@ def retrieve_record(stage, session_id=None, prev=None):
     return record
 
 
+@bp.route('/', methods=['GET'])
 @bp.route('/start', methods=['GET'])
 def start():
     init_stage = app.config['CHALLENGE_FIRST_QUIZ']

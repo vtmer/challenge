@@ -1,5 +1,7 @@
 #coding: utf-8
 
+from flask import render_template
+
 
 def generate(key):
-    return 'this is your key: %s' % key
+    return render_template('hello.html', key=key)
