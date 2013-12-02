@@ -39,6 +39,15 @@ def new_record(stage, session_id=None, prev=None):
     return record
 
 
+def retrieve_record(stage, session_id=None, prev=None):
+    record = Record.query.filter_by(stage_id=stage.id,
+                                    session_id=session_id).first()
+    if not record:
+        record = new_record(stage, session_id, prev)
+
+    return record
+
+
 @bp.route('/start', methods=['GET'])
 def start():
     init_stage = app.config['CHALLENGE_FIRST_QUIZ']
@@ -65,7 +74,7 @@ def quiz(key):
         logger.info('%s has finished all quizs!' % session_id)
         return 'You have finished it! Congs!'
 
-    record = new_record(last_record.stage.next, session_id, last_record)
+    record = retrieve_record(last_record.stage.next, session_id, last_record)
     quiz = load(record.stage.quiz_name)
 
     return quiz(record.key)
