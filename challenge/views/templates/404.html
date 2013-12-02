@@ -1,0 +1,26 @@
+<!doctype html>
+<title>时空错乱！！！！！！！！！！！！！！！1</title>
+<h1>你来错地方啦！！！！！！！！！！！！！！！！11</h1>
+<p class="status">准备把你送回原来的地方去！</p>
+
+
+
+<script type="text/javascript">
+    // TODO compress me :/
+    var delay = function(cb, sec) {
+        window.setTimeout(cb, sec * 1000);
+    };
+    var shortDelay = function(cb) {
+        delay(cb, 2);
+    };
+    var longDelay = function(cb) {
+        delay(cb, 5);
+    };
+    longDelay(function() {
+        document.querySelector('.status').innerText = '传送开始！请抓紧扶手！';
+        shortDelay(function() {
+            // haha, it's a naive function
+            history.back();    
+        });
+    });
+</script>

@@ -3,7 +3,7 @@
 import logging
 
 from flask import current_app as app
-from flask import Blueprint, session
+from flask import Blueprint, session, render_template
 
 from challenge.utils import key
 from challenge.quizs import load
@@ -46,6 +46,11 @@ def retrieve_record(stage, session_id=None, prev=None):
         record = new_record(stage, session_id, prev)
 
     return record
+
+
+@bp.errorhandler(404)
+def not_your_key(error):
+    return render_template('404.html'), 404
 
 
 @bp.route('/', methods=['GET'])
