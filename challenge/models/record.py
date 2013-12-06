@@ -1,5 +1,7 @@
 #coding: utf-8
 
+from sqlalchemy.orm import backref
+
 from challenge.db import db
 
 __all__ = ['Record']
@@ -15,10 +17,10 @@ class Record(db.Model):
     stage_id = db.Column(db.Integer, db.ForeignKey('stage.id'))
     stage = db.relationship('Stage')
 
-    # TODO
-    # bidirect relation
     next_record_id = db.Column(db.Integer, db.ForeignKey('record.id'))
-    prev = db.relationship('Record', uselist=False)
+    # records are single linked list
+    prev = db.relationship('Record', uselist=False, remote_side=[id],
+                           backref=backref('next', uselist=False))
 
     def __init__(self, session_id, key, stage, prev=None):
         self.session_id = session_id
@@ -36,9 +38,8 @@ class Record(db.Model):
     def last(self):
         '''Get last record from the records chains'''
         node = self
-        while node.next_record_id:
-            # TODO bidirect relation
-            node = Record.query.filter_by(id=node.next_record_id).first()
+        while node.next:
+            node = node.next
         return node
 
     @property

@@ -17,8 +17,8 @@
         <input type="text" name="quiz_name" />
     </div>
     <div class="pure-control-group">
-        <label for="next_quiz">Next Quiz:</label>
-        <select name="next_quiz">
+        <label for="prev_quiz">Prev Quiz:</label>
+        <select name="prev_quiz">
             <option value="-1" selected>None</option>
             {% for quiz in quizs %}
             <option value="{{ quiz.id }}">{{ quiz.display_name }}</option>

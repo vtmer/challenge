@@ -1,5 +1,7 @@
 #coding: utf-8
 
+from sqlalchemy.orm import backref
+
 from challenge.db import db
 
 __all__ = ['Stage']
@@ -12,16 +14,16 @@ class Stage(db.Model):
     display_name = db.Column(db.String(150), unique=True, nullable=False)
     quiz_name = db.Column(db.String(150), nullable=True)
 
-    # TODO
-    # bidirect relation
     prev_stage_id = db.Column(db.Integer, db.ForeignKey('stage.id'))
-    next = db.relationship('Stage', uselist=False)
+    # stages are single linked list
+    next = db.relationship('Stage', uselist=False, remote_side=[id],
+                           backref=backref('prev', uselist=False))
 
     def __init__(self, display_name, quiz_name, prev_stage=None):
         self.display_name = display_name
         self.quiz_name = quiz_name
         if prev_stage:
-            self.prev_stage_id = prev_stage.id
+            self.prev = prev_stage
 
     def __str__(self):
         return '<Stage %s %s>' % (self.display_name, self.quiz_name)
@@ -31,14 +33,26 @@ class Stage(db.Model):
 
     @property
     def ancestors(self):
-        '''ancectors stage
+        '''ancectors stages
 
-        TODO cached result
+        TODO cache result
         '''
         parents, node = [], self
-        while node.prev_stage_id:
-            # TODO bidirect relation
-            papa = Stage.query.filter_by(id=node.prev_stage_id).first()
-            parents.append(papa)
-            node = papa
+        while node.prev:
+            parents.append(node.prev)
+            node = node.prev
+
         return parents
+
+    @property
+    def children(self):
+        '''children stages
+
+        TODO cache result
+        '''
+        children, node = [], self
+        while node.next:
+            children.append(node.next)
+            node = node.next
+
+        return children

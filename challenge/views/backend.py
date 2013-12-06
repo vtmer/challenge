@@ -96,10 +96,10 @@ def quiz(quiz_id):
         # TODO
         # form validation & record validation
         display_name = request.form.get('display_name')
-        next_quiz_id = int(request.form.get('next_quiz') or 0)
-        next_quiz = Stage.query.filter_by(id=next_quiz_id).first()
+        prev_quiz_id = int(request.form.get('prev_quiz') or 0)
+        prev_quiz = Stage.query.filter_by(id=prev_quiz_id).first()
         q.display_name = display_name
-        q.next = next_quiz
+        q.prev = prev_quiz
         db.session.commit()
         flash('Quiz\'s informations updated!', category='success')
         return redirect(url_for('.quiz', quiz_id=quiz_id))
@@ -124,9 +124,9 @@ def create_quiz():
         # form validation & record validation
         display_name = request.form.get('display_name')
         quiz_name = request.form.get('quiz_name')
-        next_quiz_id = int(request.form.get('next_quiz') or 0)
-        next_quiz = Stage.query.filter_by(id=next_quiz_id).first()
-        q = Stage(display_name, quiz_name, next_quiz)
+        prev_quiz_id = int(request.form.get('prev_quiz') or 0)
+        prev_quiz = Stage.query.filter_by(id=prev_quiz_id).first()
+        q = Stage(display_name, quiz_name, prev_quiz)
         db.session.add(q)
         db.session.commit()
         logger.info('Created %s' % q)

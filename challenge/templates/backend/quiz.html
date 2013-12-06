@@ -17,16 +17,22 @@
         <input type="text" name="quiz_name" value="{{ quiz.quiz_name }}" disabled />
     </div>
     <div class="pure-control-group">
-        <label for="next_quiz">Next Quiz:</label>
-        <select name="next_quiz">
-            <option value="-1" {% if not quiz.next %}selected{% endif %}>None</option>
+        <label for="prev_quiz">Prev Quiz:</label>
+        <select name="prev_quiz">
+            <option value="-1" {% if not quiz.prev %}selected{% endif %}>None</option>
             {% for q in quizs %}
-            {% if q.id != quiz.id and q not in quiz.ancestors %}
-            <option value="{{ q.id }}" {% if quiz.next.id == q.id %}selected{% endif %}>{{ q.display_name }}</option>
+            {% if q.id != quiz.id and q not in quiz.children %}
+            <option value="{{ q.id }}" {% if quiz.prev.id == q.id %}selected{% endif %}>{{ q.display_name }}</option>
             {% endif %}
             {% endfor %}
         </select>
     </div>
+    {% if quiz.next.quiz_name %}
+    <div class="pure-control-group">
+        <label for="next_quiz">Next Quiz:</label>
+        <a href="{{ url_for('backend.quiz', quiz_id=quiz.next.id) }}">{{ quiz.next.quiz_name }}</a>
+    </div>
+    {% endif %}
     <div class="pure-controls">
         <button class="pure-button pure-button-primary" type="submit">Updated informations</button>
     </div>
