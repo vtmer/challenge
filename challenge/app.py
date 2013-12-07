@@ -32,11 +32,11 @@ def register_db(app):
 
 
 def register_blueprint(app):
-    from .views import quiz
-    app.register_blueprint(quiz.bp, url_prefix='/quiz')
+    from .quizs import bp as quiz_bp
+    app.register_blueprint(quiz_bp, url_prefix='/quiz')
 
-    from .views import backend
-    app.register_blueprint(backend.bp, url_prefix='/backend')
+    from .backend import bp as backend_bp
+    app.register_blueprint(backend_bp, url_prefix='/backend')
 
     return app
 

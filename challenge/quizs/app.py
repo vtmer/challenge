@@ -6,9 +6,13 @@ from flask import current_app as app
 from flask import Blueprint, session, render_template
 
 from challenge.utils import key
-from challenge.quizs import load
 from challenge.db import db
 from challenge.models import Stage, Record
+
+from .utils import load
+
+
+__all__ = ['bp']
 
 
 bp = Blueprint('quiz', __name__, template_folder='templates')

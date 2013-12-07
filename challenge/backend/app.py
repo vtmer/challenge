@@ -10,7 +10,10 @@ from challenge.db import db
 from challenge.models import Auth, Stage, Record
 
 
-bp = Blueprint('backend', __name__, template_folder='../templates/backend',
+__all__ = ['bp']
+
+
+bp = Blueprint('backend', __name__, template_folder='templates',
                static_folder='static')
 logger = logging.getLogger('app')
 

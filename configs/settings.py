@@ -10,4 +10,4 @@ CHALLENGE_FIRST_QUIZ = {
     'display_name': 'hello quiz',
     'quiz_name': 'hello'
 }
-CHALLENGE_QUIZ_MODULE = 'challenge.quizs'
+CHALLENGE_QUIZ_MODULE = 'challenge.quizs.magic'
