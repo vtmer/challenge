@@ -2,13 +2,14 @@
 
 {% block module_content %}
 <form action="{{ url_for('backend.me') }}" method="post" class="pure-form pure-form-stacked">
+    {{ form.hidden_tag() }}
     <div class="pure-control-group">
-        <label for="orig_password">Password</label>
-        <input type="password" name="orig_password" />
+        {{ form.orig_password.label('Password') }}
+        {{ form.orig_password() }}
     </div>
     <div class="pure-control-group">
-        <label for="password">New Password</label>
-        <input type="password" name="password" />
+        {{ form.password.label('New Password') }}
+        {{ form.password() }}
     </div>
     <div class="pure-controls">
         <button class="pure-button pure-button-primary" type="submit">Change password</button>

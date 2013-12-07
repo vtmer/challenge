@@ -10,9 +10,10 @@
                 </header>
                 {% with next = get_flashed_messages(category_filter=['next']) %}
                 <form action="{{ url_for('backend.auth', next=next or '') }}" method="post" class="pure-form pure-form-aligned">
+                    {{ form.hidden_tag() }}
                     <div class="pure-control-group">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" class="pure-u-1-2" />
+                        {{ form.password.label('Password:') }}
+                        {{ form.password(class_='pure-u-1-2') }}
                     </div>
                     <div class="pure-controls">
                         <button class="pure-button pure-button-primary" type="submit">Sign in</button>

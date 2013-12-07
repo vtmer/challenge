@@ -1,5 +1,6 @@
 flask
 flask-script
 flask-sqlalchemy
+flask-wtf
 alembic
 nose

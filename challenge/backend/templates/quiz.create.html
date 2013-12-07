@@ -8,22 +8,18 @@
 
 {% block module_content %}
 <form action="{{ url_for('backend.create_quiz') }}" method="post" class="pure-form pure-form-stacked">
+    {{ form.hidden_tag() }}
     <div class="pure-control-group">
-        <label for="display_name">Name:</label>
-        <input type="text" name="display_name" />
+        {{ form.display_name.label('Name:') }}
+        {{ form.display_name }}
     </div>
     <div class="pure-control-group">
-        <label for="quiz_name">Module:</label>
-        <input type="text" name="quiz_name" />
+        {{ form.quiz_name.label('Module:')}}
+        {{ form.quiz_name }}
     </div>
     <div class="pure-control-group">
-        <label for="prev_quiz">Prev Quiz:</label>
-        <select name="prev_quiz">
-            <option value="-1" selected>None</option>
-            {% for quiz in quizs %}
-            <option value="{{ quiz.id }}">{{ quiz.display_name }}</option>
-            {% endfor %}
-        </select>
+        {{ form.prev_quiz.label('Prev Quiz:') }}
+        {{ form.prev_quiz }}
     </div>
     <div class="pure-controls">
         <button class="pure-button pure-button-primary" type="submit">Create</button>

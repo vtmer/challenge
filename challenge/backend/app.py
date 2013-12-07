@@ -9,6 +9,8 @@ from flask import request, redirect, url_for, render_template, session, flash
 from challenge.db import db
 from challenge.models import Auth, Stage, Record
 
+from .forms import AuthForm, UpdatePasswordForm, QuizForm
+
 
 __all__ = ['bp']
 
@@ -43,14 +45,15 @@ def auth_require(func):
 
 @bp.route('/auth', methods=['GET', 'POST'])
 def auth():
-    if request.method == 'POST':
+    form = AuthForm()
+    if form.validate_on_submit():
         password = request.form.get('password')
         if not Auth.query.filter_by(password=Auth.encrypt(password)).first():
             flash('Password incorrect!', category='error')
             return redirect(url_for('.auth'))
         auth_login()
         return redirect(request.args.get('next') or url_for('.index'))
-    return render_template('auth.html')
+    return render_template('auth.html', form=form)
 
 
 @bp.route('/out', methods=['GET'])
@@ -70,7 +73,8 @@ def index():
 @bp.route('/me', methods=['GET', 'POST'])
 @auth_require
 def me():
-    if request.method == 'POST':
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
         original = request.form.get('orig_password')
         password = request.form.get('password')
         user = Auth.query.filter_by(password=Auth.encrypt(original)).first()
@@ -82,7 +86,7 @@ def me():
             return redirect(url_for('.auth'))
         flash('Original password incorrect!', category='error')
         return redirect(url_for('.me'))
-    return render_template('me.html')
+    return render_template('me.html', form=form)
 
 
 @bp.route('/quizs', methods=['GET'])
@@ -95,9 +99,9 @@ def list_quizs():
 @auth_require
 def quiz(quiz_id):
     q = Stage.query.filter_by(id=quiz_id).first_or_404()
-    if request.method == 'POST':
-        # TODO
-        # form validation & record validation
+    form = QuizForm(obj=q)
+    form.prepare_prev_quiz(Stage.query.all(), q)
+    if form.validate_on_submit():
         display_name = request.form.get('display_name')
         prev_quiz_id = int(request.form.get('prev_quiz') or 0)
         prev_quiz = Stage.query.filter_by(id=prev_quiz_id).first()
@@ -106,7 +110,7 @@ def quiz(quiz_id):
         db.session.commit()
         flash('Quiz\'s informations updated!', category='success')
         return redirect(url_for('.quiz', quiz_id=quiz_id))
-    return render_template('quiz.html', quiz=q, quizs=Stage.query.all())
+    return render_template('quiz.html', form=form, quiz=q)
 
 
 @bp.route('/quiz/<int:quiz_id>/remove', methods=['GET'])
@@ -122,9 +126,9 @@ def remove_quiz(quiz_id):
 @bp.route('/quiz/create', methods=['GET', 'POST'])
 @auth_require
 def create_quiz():
-    if request.method == 'POST':
-        # TODO
-        # form validation & record validation
+    form = QuizForm()
+    form.prepare_prev_quiz(Stage.query.all())
+    if form.validate_on_submit():
         display_name = request.form.get('display_name')
         quiz_name = request.form.get('quiz_name')
         prev_quiz_id = int(request.form.get('prev_quiz') or 0)
@@ -135,7 +139,7 @@ def create_quiz():
         logger.info('Created %s' % q)
         flash('Created new quiz %s' % display_name, category='success')
         return redirect(url_for('.list_quizs'))
-    return render_template('quiz.create.html', quizs=Stage.query.all())
+    return render_template('quiz.create.html', form=form)
 
 
 @bp.route('/records', methods=['GET'])
